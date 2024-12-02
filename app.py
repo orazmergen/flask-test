@@ -26,20 +26,14 @@ def hello_history():
 @app.route('/webhook', methods=['POST'])
 def hello_world():
     data = request.get_json()
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer de197cd9070c45d2a1a9c4d8ae8b5041',
-    }
-
     chanal = "d2eac0a3-6627-4935-a46d-0997f41c642a"
-    #requests.post("https://ba3a-2-75-156-130.ngrok-free.app/webhook",headers = headers,json=data)
-    if 'messages' in data and 'authorName' not in data:
+    if 'messages' in data and 'authorName' not in data['messages']:
         messages = data['messages']
 
         messages_iter = iter(messages)
         first_message = next(messages_iter, None)
 
-        if first_message.get('channelId')==chanal and not None and 'authorName' not in first_message:
+        if first_message.get('channelId')==chanal and not None:
             if first_message.get('type')!="text":
                 message_to_manager(first_message)
                 return jsonify({"message":"ok"}), 200
