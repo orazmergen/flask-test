@@ -1,7 +1,8 @@
 import sqlite3, json
 from openai import OpenAI
+import os
 
-client = OpenAI(api_key='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')
+client = OpenAI(api_key=f'os.getenv("OPENAI_KEY")')
 
 def get_conversation_history(user_id):
     conn = sqlite3.connect('conversations.db')
@@ -70,7 +71,6 @@ def get_system_prompt():
 
 def gpt_input(data_from_bitrix):
     user_message = data_from_bitrix["text"]
-    print(f'User_message: {user_message}')
     user_id = data_from_bitrix["user_id"]
 
     conversation_history = get_conversation_history(user_id)
