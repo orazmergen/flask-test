@@ -26,7 +26,7 @@ def hello_history():
 @app.route('/webhook', methods=['POST'])
 def hello_world():
     data = request.get_json()
-    chanal = "d2eac0a3-6627-4935-a46d-0997f41c642a"
+    chanal = os.getenv("CHANAL_ID")
     if 'messages' in data and 'authorName' not in data['messages']:
         messages = data['messages']
 
@@ -47,8 +47,8 @@ def message_to_manager(first_message):
     message_client = webhook(first_message, gpt_answer = 'хорошо, минутку')
     client_id = first_message.get('chatId')
     print('Finish text = ',message_client)
-    first_message['chatId'] = '77754902017'
-    message_manager = webhook(first_message, gpt_answer = f'Посмотри медиа файл, {first_message.get("contentUri")} \n а тут переписка - https://megabot.kz/history?userid={client_id} \n Кстати, а вот и номер клиента +{client_id}')
+    first_message['chatId'] = os.getenv("MANAGER_PHONE")
+    message_manager = webhook(first_message, gpt_answer = f'Посмотри медиа файл, {first_message.get("contentUri")} \n а тут переписка - {os.getenv("BASE_URL")}/history?userid={client_id} \n Кстати, а вот и номер клиента +{client_id}')
 
 def webhook(first_message, gpt_answer = 'code_gpt_base'):
     if gpt_answer == 'code_gpt_base':
@@ -65,7 +65,7 @@ def webhook(first_message, gpt_answer = 'code_gpt_base'):
                 }
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer de197cd9070c45d2a1a9c4d8ae8b5041',
+        'Authorization': f'Bearer {os.getenv("WAZZAP_API_KEY")}',
     }
     try:
         response = requests.post("https://api.wazzup24.com/v3/message", headers=headers, json=json_data)
