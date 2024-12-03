@@ -83,31 +83,6 @@ def webhook_add_system():
     else:
         return jsonify({"message":"not success"}), 400
 
-@app.route('/activation', methods=['POST'])
-def webhook_add_webhook():
-    data = request.json
-    webhook_url = data['webhook_url']
-    api_key_wazzup = data['api_key']
-
-    
-    url = 'https://api.wazzup24.com/v3/webhooks'
-    headers = {
-        'Authorization': f'Bearer {api_key_wazzup}',
-        'Content-Type': 'application/json'
-    }
-
-    data = {
-        "webhooksUri": f"{webhook_url}",
-        "subscriptions": {
-            "messagesAndStatuses": True,
-            "contactsAndDealsCreation": True
-        }
-    }
-
-    response_data = requests.patch(url, headers=headers, json=data)
-   
-    return jsonify({"message":"ok","data":f"{response_data.json}"}), 200
-
 
 if __name__ == '__main__':
 
