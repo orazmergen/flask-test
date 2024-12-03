@@ -6,4 +6,5 @@ install:
 migrate:
 	python db.py
 
-web: gunicorn app:app
+web: 
+	gunicorn app:app
