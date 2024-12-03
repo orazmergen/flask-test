@@ -33,7 +33,7 @@ def hello_world():
         messages_iter = iter(messages)
         first_message = next(messages_iter, None)
 
-        if first_message.get('channelId')==chanal and not None:
+        if first_message.get('channelId')==chanal and not None and (first_message.get('chatType')!='whatsgroup'):
             if first_message.get('type')!="text":
                 message_to_manager(first_message)
                 return jsonify({"message":"ok"}), 200
